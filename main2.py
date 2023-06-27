@@ -20,7 +20,6 @@ PANTALLA = pygame.display.set_mode((ventana))
 
 form_principal = FormPrueba(PANTALLA,0,200,900,350, "Gold","Magenta",5,True)
 
-
 while flag:
     RELOJ.tick(FPS)
     PANTALLA.fill("Black")

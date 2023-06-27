@@ -99,6 +99,9 @@ class Nivel:
                 for lado in plataforma.lados:
                     pygame.draw.rect(self._slave,"Yellow", plataforma.lados[lado], 2)              
 
+            for lado in self.jugador.lados:
+                pygame.draw.rect(self._slave,"Yellow", self.jugador.lados[lado], 2)
+            
             for enemigo in self.enemigos:
                 for lado in enemigo.lados:
                     pygame.draw.rect(self._slave,"Red", enemigo.lados[lado], 2)

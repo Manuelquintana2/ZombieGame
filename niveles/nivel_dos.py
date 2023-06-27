@@ -87,7 +87,6 @@ class NivelDos(Nivel):
         lista_hitbox_enemigo = [enemigo.lados_hitbox, enemigo_dos.lados_hitbox]
         lista_enemigos = [enemigo.lados, enemigo_dos.lados]
         listaEnemigo = [enemigo, enemigo_dos]
-        
 
         #PLATAFORMAS
         piso = pygame.Rect(0,0,W,20)
