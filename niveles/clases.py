@@ -150,8 +150,8 @@ class Personaje:
                 enemigos[lado].y = -5000
         for enemigos in lista_enemigos:
             for lado in enemigos:
-                enemigos[lado].x = random.randrange(0,740,60)
-                enemigos[lado].y = random.randrange(-1000,0,60)
+                enemigos[lado].x = -5000
+                enemigos[lado].y = -5000
     
     def ganar_juego(self,lista_objetivo,lista_hitbox,lista_enemigos,lista_item):
         for objetivo in lista_objetivo:
