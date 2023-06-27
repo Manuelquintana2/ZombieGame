@@ -78,16 +78,6 @@ class Personaje:
             elif self.lados["top"].colliderect(plataformas["bottom"]):
                 self.desplazamiento_y = 2
                 break
-            for plataforma in lista_plataformas: 
-                if self.lados["bottom"].colliderect(plataforma["top"]):
-                    esta_saltando = False
-                    desplazamiento_y = 0
-                    self.lados["main"].bottom = plataforma["main"].top + 5
-                    break 
-        
-                elif self.lados["top"].colliderect(plataforma["bottom"]):
-                    desplazamiento_y = 2
-                    break       
             else:
                 self.esta_saltando = True
     
