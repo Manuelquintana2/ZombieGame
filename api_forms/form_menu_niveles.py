@@ -25,8 +25,8 @@ class formNiveles(Form):
         self.btn_nivel_uno = Button_Image(screen=self._slave,
                                           master_x= x,
                                           master_y= y,
-                                          x = 200,
-                                          y =120,
+                                          x = 400,
+                                          y =350,
                                           w = 100,
                                           h = 100,
                                           path_image="api_forms\imagen_nivel_uno.png",
@@ -38,8 +38,8 @@ class formNiveles(Form):
         self.btn_nivel_dos = Button_Image(screen=self._slave,
                                           master_x= x,
                                           master_y= y,
-                                          x = 300,
-                                          y =120,
+                                          x = 550,
+                                          y =350,
                                           w = 100,
                                           h = 100,
                                           path_image="api_forms\imagen_nivel_dos.png",
@@ -51,8 +51,8 @@ class formNiveles(Form):
         self.btn_nivel_tres = Button_Image(screen=self._slave,
                                           master_x= x,
                                           master_y= y,
-                                          x = 400,
-                                          y =120,
+                                          x = 700,
+                                          y =350,
                                           w = 100,
                                           h = 100,
                                           color_background=(255,0,0),
@@ -68,8 +68,8 @@ class formNiveles(Form):
         self.btn_home = Button_Image(screen=self._slave,
                                           master_x= x,
                                           master_y= y,
-                                          x = 200,
-                                          y =300,
+                                          x = 800,
+                                          y =10,
                                           w = 100,
                                           h = 100,
                                           path_image="api_forms\home.png",
@@ -104,7 +104,7 @@ class formNiveles(Form):
         # Verificar desbloqueo de niveles
         self.nivel_dos_desbloqueado = self.nivel_uno_completado
         self.nivel_tres_desbloqueado = self.nivel_dos_completado
-        # Actualizar estado de completado de niveles
+        # Actualizar niveles
         self.nivel_uno_completado = os.path.exists("datospartidanivel_uno.json")
         self.nivel_dos_completado = os.path.exists("datospartidanivel_dos.json")
         self.nivel_tres_completado = os.path.exists("datospartidanivel_tres.json")
@@ -124,32 +124,18 @@ class formNiveles(Form):
             contenedor_nivel = FormContenedorNivel(self._master, nivel)
             self.show_dialog(contenedor_nivel)
 
-        if nivel_actual is not None:
+       
             # Verificar si el nivel actual completado es el nivel uno
             if nivel_actual != "nivel_uno" and self.verificar_archivo_json(f"datospartida{nombre_nivel}"):
                 nivel_desbloqueado = f"nivel_{nombre_nivel}_desbloqueado"
-                setattr(self, nivel_desbloqueado, True)
-
-        # Actualizar el estado de completado de los niveles
-        self.nivel_uno_completado = os.path.exists("datospartidanivel_uno.json")
-        self.nivel_dos_completado = os.path.exists("datospartidanivel_dos.json")
-        self.nivel_tres_completado = os.path.exists("datospartidanivel_tres.json")
+                setattr(self, nivel_desbloqueado, True) 
 
         self.actualizar_estado_niveles()
     
     
     def btn_home_click(self,param):
         self.end_dialog()
-         # Reiniciar variables de desbloqueo y completado de niveles
-        self.nivel_uno_desbloqueado = True
-        self.nivel_dos_desbloqueado = False
-        self.nivel_tres_desbloqueado = False
-        self.nivel_cuatro_desbloqueado = False
-        self.nivel_uno_completado = False
-        self.nivel_dos_completado = False
-        self.nivel_tres_completado = False
-
-        self.actualizar_estado_niveles()
+        
 
         
         

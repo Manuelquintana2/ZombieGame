@@ -86,7 +86,7 @@ class FormPrueba(Form):
     #     pygame.mixer.music.set_volume(self.volumen)
     
     def btn_imagen_click(self,text):
-        formulario_niveles = formNiveles(self._master,100,25,800,550,"Black","Black",True,"api_forms\contenedor_niveles.png")
+        formulario_niveles = formNiveles(self._master,0,0,900,700,"Black","Black",True,"zyro-image.png")
         self.show_dialog(formulario_niveles)
         
     def btn_settings_click(self,text):
