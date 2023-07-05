@@ -1,10 +1,12 @@
 import pygame
 from niveles.config import *
 import random
+import json
 
 class Personaje:
-    def __init__(self, tamaño, animaciones, posicion_inicial,velocidad):
+    def __init__(self, tamaño, animaciones, posicion_inicial,velocidad,nivel=None):
         #CONFECCION
+        self.nivel = nivel
         self.ancho = tamaño[0]
         self.alto = tamaño[1]
         #GRAVEDAD
@@ -108,20 +110,37 @@ class Personaje:
                 print(f"Ahora tienes {self.contador_vidas} vidas. Aprovechalas!")
     
     def verificar_colision_enemigo(self,lista_hitbox,lista_enemigo):
-        for enemigo in lista_hitbox:
-            if self.lados["right"].colliderect(enemigo["left"]) and self.mira_derecha == True:
+        if self.lados["right"].colliderect(lista_hitbox["left"]) and self.mira_derecha == True:
+            self.contador_vidas -= 1
+            print(f"Haz perdido una vida.")
+        elif self.lados["left"].colliderect(lista_hitbox["right"]) and self.mira_izquierda == True and self.mira_derecha==False:
+            self.contador_vidas -= 1
+            print(f"Haz perdido una vida.")
+        elif self.contador_vidas <= 0:
+            self.desaparecer_personaje(self.lados)
+               
+        elif self.lados["bottom"].colliderect(lista_hitbox["top"]):
+            self.desaparecer_enemigo_uno(lista_hitbox,lista_enemigo)
+            self.contador_puntaje += 100
+            self.contador_proyectiles += 3
+    
+    def verificar_colision_enemigo_dos(self,enemigo_dos_hitbox,enemigo_dos):
+        if enemigo_dos_hitbox and enemigo_dos != None:
+            if self.lados["right"].colliderect(enemigo_dos_hitbox["left"]) and self.mira_derecha == True:
                 self.contador_vidas -= 1
                 print(f"Haz perdido una vida.")
-            elif self.lados["left"].colliderect(enemigo["right"]) and self.mira_izquierda == True:
+            elif self.lados["left"].colliderect(enemigo_dos_hitbox["right"]) and self.mira_izquierda == True and self.mira_derecha==False:
                 self.contador_vidas -= 1
                 print(f"Haz perdido una vida.")
             elif self.contador_vidas <= 0:
                 self.desaparecer_personaje(self.lados)
-                break
-            elif self.lados["bottom"].colliderect(enemigo["top"]):
-                self.desaparecer_enemigo(lista_hitbox,lista_enemigo)
+                
+            elif self.lados["bottom"].colliderect(enemigo_dos_hitbox["top"]):
+                self.desaparecer_enemigo_dos(enemigo_dos_hitbox,enemigo_dos)
                 self.contador_puntaje += 100
                 self.contador_proyectiles += 3
+        else:
+            return None
     
     def verificar_colision_trampa(self,lista_trampas_lados,lista_trampas):
         for trampa in lista_trampas_lados:
@@ -143,34 +162,76 @@ class Personaje:
             rectangulo[lado].x = -10000
             rectangulo[lado].y = -10000
     
-    def desaparecer_enemigo(self, lista_hitbox, lista_enemigos):
-        for enemigos in lista_hitbox:
-            for lado in enemigos:
-                enemigos[lado].x = -5000
-                enemigos[lado].y = -5000
-        for enemigos in lista_enemigos:
-            for lado in enemigos:
-                enemigos[lado].x = -5000
-                enemigos[lado].y = -5000
+    def desaparecer_enemigo_uno(self, enemigo_uno_hitbox, enemigo_uno):
+        for lado in enemigo_uno_hitbox:
+            enemigo_uno_hitbox[lado].x = -5000
+            enemigo_uno_hitbox[lado].y = -5000
+
+        for lado in enemigo_uno:
+            enemigo_uno[lado].x = -5000
+            enemigo_uno[lado].y = -5000
+            
+    def desaparecer_enemigo_dos(self, enemigo_dos_hitbox, enemigo_dos):
+        if enemigo_dos_hitbox != None:
+            for lado in enemigo_dos_hitbox:
+                enemigo_dos_hitbox[lado].x = -5000
+                enemigo_dos_hitbox[lado].y = -5000
+
+            for lado in enemigo_dos:
+                enemigo_dos[lado].x = -5000
+                enemigo_dos[lado].y = -5000
     
-    def ganar_juego(self,lista_objetivo,lista_hitbox,lista_enemigos,lista_item):
+
+
+    def ganar_juego(self,lista_objetivo,enemigo_uno_hitbox,enemigo,enemigo_dos_hitbox,enemigo_dos,lista_item):
         for objetivo in lista_objetivo:
             if self.lados["main"].colliderect(objetivo["main"]):
                 self.contador_puntaje += 500
-                self.desaparecer_enemigo(lista_hitbox, lista_enemigos)
+                self.desaparecer_enemigo_uno(enemigo_uno_hitbox, enemigo)
+                self.desaparecer_enemigo_dos(enemigo_dos_hitbox, enemigo_dos)
                 self.desaparecer_personaje(self.lados)
                 self.desaparecer_item(lista_item)
+                self.guardar_datos_partida()
+                
+    def guardar_datos_partida(self):
+        nombre_archivo = f'datospartida{self.nivel}.json'
+        datos = {
+            
+            'puntos': self.contador_puntaje
+           
+        }
+
+        try:
+            with open(nombre_archivo, 'w') as file:
+                json.dump(datos, file, indent=4)
+        except PermissionError:
+            print('Completado todos los niveles, felicidades')            
                 
     def verificar_colision_enemigo_bala(self, lista_hitbox,lista_enemigo,lista_bala):
         for bala in lista_bala:
-            for enemigo in lista_hitbox:
-                if bala["main"].colliderect(enemigo["main"]):
-                    self.desaparecer_enemigo(lista_hitbox,lista_enemigo)
-
+            if bala["main"].colliderect(lista_hitbox["main"]):
+                self.desaparecer_enemigo_uno(lista_hitbox,lista_enemigo)
+    
+    def verificar_colision_enemigo_bala_dos(self, enemigo_dos_hitbox,enemigo_dos,lista_bala):
+        if enemigo_dos_hitbox and enemigo_dos != None:
+            for bala in lista_bala:
+                if bala["main"].colliderect(enemigo_dos_hitbox["main"]):
+                    self.desaparecer_enemigo_dos(enemigo_dos_hitbox,enemigo_dos)
+        else:
+            return None
+        
+    def verificar_colision_boss(self,lista_balas_enemigo):
+        if lista_balas_enemigo != None:
+            for bala in lista_balas_enemigo:
+                if self.lados["main"].colliderect(bala["main"]):
+                    self.contador_vidas -= 1
+        
+    
     def update(self,pantalla,lista_plataformas, 
-               lista_items,lista_hitbox, 
-               lista_enemigo,lista_objetivo,lista_trampas_lados,
-               lista_trampas,lista_balas,lista_monedas):
+               lista_items,enemigo_uno_hitbox, 
+               enemigo_uno,lista_objetivo,lista_trampas_lados,
+               lista_trampas,lista_balas,lista_monedas,enemigo_dos_hitbox,
+               enemigo_dos,balas_enemigo):
         match self.que_hace:     
             case "derecha":
                 self.mira_derecha = True
@@ -202,11 +263,14 @@ class Personaje:
         self.aplicar_gravedad(pantalla,lista_plataformas)
         self.verificar_colisiones_plataformas(lista_plataformas)
         self.verificar_colision_item(lista_items)
-        self.verificar_colision_enemigo(lista_hitbox,lista_enemigo)
-        self.ganar_juego(lista_objetivo,lista_hitbox,lista_enemigo,lista_items)
+        self.verificar_colision_enemigo(enemigo_uno_hitbox,enemigo_uno)
+        self.verificar_colision_enemigo_dos(enemigo_dos_hitbox,enemigo_dos)
+        self.ganar_juego(lista_objetivo,enemigo_uno_hitbox,enemigo_uno,enemigo_dos_hitbox,enemigo_dos,lista_items)
         self.verificar_colision_trampa(lista_trampas_lados, lista_trampas)
-        self.verificar_colision_enemigo_bala(lista_hitbox,lista_enemigo,lista_lados_balas)
+        self.verificar_colision_enemigo_bala(enemigo_uno_hitbox,enemigo_uno,lista_lados_balas)
+        self.verificar_colision_enemigo_bala_dos(enemigo_dos_hitbox,enemigo_dos,lista_balas)
         self.verificar_colision_moneda(lista_monedas)
+        self.verificar_colision_boss(balas_enemigo)
         
 class Proyectil(Personaje):
     def __init__(self,tamaño,path,posx,posy,velocidad):
@@ -221,7 +285,6 @@ class Proyectil(Personaje):
     def update(self,pantalla):
         self.rect.x += self.velocidad_disparo
         pantalla.blit(self.imagen_proyectil,self.rect)
-        
 
 class Enemigo(Personaje):
     def __init__(self,de_donde_hasta_donde,posicion_hitbox,tamaño, animaciones, posicion_inicial,velocidad):
@@ -350,10 +413,106 @@ class PlataformaTrampa(Plataforma):
     def __init__(self, tamaño, path, posicion_inicial,daño):
         super().__init__(tamaño, path, posicion_inicial)
         self.daño = daño
-        
+
+class ProyectilEnemigo(Personaje):
+    def __init__(self,tamaño,path,posx,posy,velocidad):
+        self.imagen_proyectil = pygame.image.load(path)
+        self.imagen_proyectil = pygame.transform.scale(self.imagen_proyectil,(30,30))
+        self.rect = self.imagen_proyectil.get_rect()
+        self.velocidad_disparo = velocidad
+        self.rect.x = posx
+        self.rect.y = posy
+        self.lados = obtener_rectangulo(self.rect)
+            
+    def update(self,pantalla):
+        self.rect.x -= self.velocidad_disparo
+        pantalla.blit(self.imagen_proyectil,self.rect)
+
+class Boss(Enemigo):
+    def __init__(self,de_donde_hasta_donde,posicion_hitbox,hitbox_disparos,tamaño, animaciones, posicion_inicial,velocidad):
+        super().__init__(de_donde_hasta_donde,posicion_hitbox,tamaño, animaciones, posicion_inicial,velocidad)
+        self.vidas = 6
+        self.x_hitbox_disparos = hitbox_disparos[0]
+        self.y_hitbox_disparos = hitbox_disparos[1]
+        self.hitbox_real = pygame.Rect(self.x_hitbox,self.y_hitbox,100,130)
+        self.lados_hitbox = obtener_rectangulo(self.hitbox_real)
+        self.hitbox_disparos = pygame.Rect(self.x_hitbox_disparos,self.y_hitbox_disparos,900,100)
+        self.cadencia = 2000
+        self.ultimo_disparo = pygame.time.get_ticks()
     
+    def animar(self, pantalla, que_animacion:str):
+        animacion = self.animaciones[que_animacion]
+        largo = len(animacion)
+        
+        if self.contador_de_pasos >= largo:
+            self.contador_de_pasos = 0
+            
+        pantalla.blit(animacion[self.contador_de_pasos], self.lados["main"])
+        self.contador_de_pasos += 1
+        
+        
+    def mover(self,rectangulo,hitbox_real):
+        for lado in rectangulo:
+            rectangulo[lado].x += self.velocidad * self.orientacion_enemigo
+        if rectangulo[lado].x > self.de_donde or rectangulo[lado].x < self.hasta_donde:
+            self.orientacion_enemigo = self.orientacion_enemigo * -1
+            self.de_donde = self.de_donde
+            self.hasta_donde = self.hasta_donde
+        for lado in hitbox_real:
+            hitbox_real[lado].x += self.velocidad * self.orientacion_enemigo
+        if hitbox_real[lado].x > self.de_donde + 40 or hitbox_real[lado].x < self.hasta_donde +60:
+            self.orientacion_enemigo = self.orientacion_enemigo * -1
+    
+    def disparar(self):
+        bala_enemigo = ProyectilEnemigo((30,30),"Enemigos\_SCML/3/a¬row.png",self.hitbox_real.x,self.hitbox_real.y+30,20)
+        lista_enemigo_balas.append(bala_enemigo)
+        lista_lados_enemigo_balas.append(bala_enemigo.lados)
+    
+    def verificar_colision_jugador(self,jugador,balas_jugador):
+        for lados in jugador.lados:
+            if self.lados_hitbox["right"].colliderect(jugador.lados["left"]) or self.lados_hitbox["left"].colliderect(jugador.lados["right"]):
+                jugador.contador_vidas -= 1
+            if jugador.contador_vidas < 1:
+                jugador.desaparecer_personaje(jugador.lados)
+            elif self.lados_hitbox["top"].colliderect(jugador.lados["bottom"]):
+                self.vidas -= 1
+        for balas in balas_jugador:
+            if self.lados_hitbox["left"].colliderect(balas.lados["main"]):
+                self.vidas -= 1
+                
+        if self.vidas < 1:
+            self.matar_boss()
+                
+    def matar_boss(self):
+        for lado in self.lados:
+            self.lados[lado].x = -100000
+            self.lados[lado].y = -100000
+        for lado in self.lados_hitbox:
+            self.lados_hitbox[lado].x = -100000
+            self.lados_hitbox[lado].y = -100000
+    
+    def update(self, pantalla,jugador,balas_jugador):
+        self.mover(self.lados,self.lados_hitbox)
+        if self.orientacion_enemigo == 1:
+            self.animar(pantalla, "camina_derecha")
+        else:
+            self.animar(pantalla, "camina_izquierda")
+            
+        if self.hitbox_disparos.colliderect(jugador.lados["main"]):
+            tiempo = pygame.time.get_ticks()
+            if tiempo - self.ultimo_disparo > self.cadencia:
+                self.disparar()
+                self.ultimo_disparo = tiempo
+        
+        self.verificar_colision_jugador(jugador,balas_jugador)
+            
+        
+        
 lista_balas = []
 lista_lados_balas = []
+
+lista_enemigo_balas = []
+lista_lados_enemigo_balas = []
     
 
 

@@ -1,7 +1,7 @@
 import pygame
-from clases import *
-from config import *
-from modo import *
+from niveles.clases import *
+from niveles.config import *
+from niveles.modo import *
 
 ###############################################################
 def actualizar_pantalla(pantalla,un_personaje:Personaje,

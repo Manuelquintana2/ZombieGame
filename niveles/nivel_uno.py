@@ -39,7 +39,7 @@ class NivelUno(Nivel):
         diccionario_animaciones["camina_derecha"] = personaje_camina
         diccionario_animaciones["camina_izquierda"] = personaje_camina_izquierda
         diccionario_animaciones["atacar"] = personaje_disparar
-        mi_personaje = Personaje(tamaño, diccionario_animaciones, posicion_inicial, 10)
+        mi_personaje = Personaje(tamaño, diccionario_animaciones, posicion_inicial, 10,"nivel_uno")
 
         #ITEMS
         item = Item((30,30), "Objetos-Iconos/PNG/Bonus_Items/HP_Bonus_03.png")
@@ -48,18 +48,14 @@ class NivelUno(Nivel):
         
         #MONEDAS
         moneda = Item((30,30),"Objetos-Iconos\PNG\Bonus_Items\Coin_03.png")
-        moneda_dos = Item((30,30),"Objetos-Iconos\PNG\Bonus_Items\Coin_03.png")
-        moneda_tres = Item((30,30),"Objetos-Iconos\PNG\Bonus_Items\Coin_03.png")
         lista_monedas = []
         lista_lados_monedas = []
         
         lista_monedas.append(moneda)
-        lista_monedas.append(moneda_dos)
-        lista_monedas.append(moneda_tres)
+        
         
         lista_lados_monedas.append(moneda.lados)
-        lista_lados_monedas.append(moneda_dos.lados)
-        lista_lados_monedas.append(moneda_tres.lados)
+        
         
 
         ##################################
@@ -79,8 +75,8 @@ class NivelUno(Nivel):
         diccionario_animaciones_enemigo["salta"] = enemigo_cae
 
         enemigo = Enemigo((780, 450),(550,360),tamaño_enemigo,diccionario_animaciones_enemigo,posicion_inicial_enemigo,10)
-        lista_hitbox_enemigo = [enemigo.lados_hitbox]
-        lista_enemigo = [enemigo.lados]
+       
+        
         listaEnemigo = [enemigo]
         
 
@@ -105,16 +101,16 @@ class NivelUno(Nivel):
                             plataforma_objetivo.lados,trampa.lados]
 
         listaPlataforma = [plataforma,plataforma_5,otra_plataforma,plataforma_objetivo,plataforma_4]
-        
-        #PROYECTILES
-        
 
         super().__init__(pantalla, mi_personaje,
                          listaPlataforma,listaEnemigo,
-                         lista_hitbox_enemigo,listaItems,
+                         enemigo.lados_hitbox,listaItems,
                          listaObjetivo,fondo_final,
                          lista_plataformas,lista_items,
-                         lista_enemigo,lista_objetivos,
+                         enemigo.lados,lista_objetivos,
                          lista_trampas,listaTrampas,lista_balas,
                          lista_lados_balas,
                          lista_monedas,lista_lados_monedas)
+
+
+    

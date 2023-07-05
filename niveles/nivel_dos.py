@@ -39,7 +39,7 @@ class NivelDos(Nivel):
         diccionario_animaciones["camina_izquierda"] = personaje_camina_izquierda
         diccionario_animaciones["atacar"] = personaje_disparar
         
-        mi_personaje = Personaje(tamaño, diccionario_animaciones, posicion_inicial, 10)
+        mi_personaje = Personaje(tamaño, diccionario_animaciones, posicion_inicial, 10,"nivel_dos")
 
         #ITEMS
         item = Item((30,30), "Objetos-Iconos/PNG/Bonus_Items/HP_Bonus_03.png")
@@ -48,18 +48,12 @@ class NivelDos(Nivel):
         
         #MONEDAS
         moneda = Item((30,30),"Objetos-Iconos\PNG\Bonus_Items\Coin_03.png")
-        moneda_dos = Item((30,30),"Objetos-Iconos\PNG\Bonus_Items\Coin_03.png")
-        moneda_tres = Item((30,30),"Objetos-Iconos\PNG\Bonus_Items\Coin_03.png")
+       
         lista_monedas = []
-        lista_lados_monedas = []
-        
+        lista_lados_monedas = [] 
         lista_monedas.append(moneda)
-        lista_monedas.append(moneda_dos)
-        lista_monedas.append(moneda_tres)
-        
         lista_lados_monedas.append(moneda.lados)
-        lista_lados_monedas.append(moneda_dos.lados)
-        lista_lados_monedas.append(moneda_tres.lados)
+        
 
         ##################################
         #OBJETIVO
@@ -82,10 +76,10 @@ class NivelDos(Nivel):
         diccionario_animaciones_enemigo["camina_izquierda"] = enemigo_izquierda
         diccionario_animaciones_enemigo["salta"] = enemigo_cae
 
-        enemigo = Enemigo((500, 140),(450,380),tamaño_enemigo,diccionario_animaciones_enemigo_dos,posicion_inicial_enemigo,10)
-        enemigo_dos = Enemigo((800, 20),(450,560),tamaño_enemigo,diccionario_animaciones_enemigo,(400,550),18)
-        lista_hitbox_enemigo = [enemigo.lados_hitbox, enemigo_dos.lados_hitbox]
-        lista_enemigos = [enemigo.lados, enemigo_dos.lados]
+        enemigo = Enemigo((800, 20),(450,560),tamaño_enemigo,diccionario_animaciones_enemigo,(400,550),18)
+        enemigo_dos = Enemigo((500, 140),(450,380),tamaño_enemigo,diccionario_animaciones_enemigo_dos,posicion_inicial_enemigo,10)
+        
+       
         listaEnemigo = [enemigo, enemigo_dos]
 
         #PLATAFORMAS
@@ -112,10 +106,11 @@ class NivelDos(Nivel):
         
         super().__init__(pantalla, mi_personaje,
                          listaPlataforma,listaEnemigo,
-                         lista_hitbox_enemigo,listaItems,
+                         enemigo.lados_hitbox,listaItems,
                          listaObjetivo,fondo_final,
                          lista_plataformas,lista_items,
-                         lista_enemigos,lista_objetivos,
+                         enemigo.lados,lista_objetivos,
                          lista_trampas,listaTrampa,lista_balas,
                          lista_lados_balas,
-                         lista_monedas,lista_lados_monedas)
+                         lista_monedas,lista_lados_monedas,
+                         enemigo_dos.lados_hitbox,enemigo_dos.lados)

@@ -38,7 +38,7 @@ class NivelTres(Nivel):
         diccionario_animaciones["camina_derecha"] = personaje_camina
         diccionario_animaciones["camina_izquierda"] = personaje_camina_izquierda
         diccionario_animaciones["atacar"] = personaje_disparar
-        mi_personaje = Personaje(tamaño, diccionario_animaciones, posicion_inicial, 10)
+        mi_personaje = Personaje(tamaño, diccionario_animaciones, posicion_inicial, 10,"nivel_tres")
 
         #ITEMS
         item = Item((30,30), "Objetos-Iconos/PNG/Bonus_Items/HP_Bonus_03.png")
@@ -47,27 +47,23 @@ class NivelTres(Nivel):
 
         #MONEDAS
         moneda = Item((30,30),"Objetos-Iconos\PNG\Bonus_Items\Coin_03.png")
-        moneda_dos = Item((30,30),"Objetos-Iconos\PNG\Bonus_Items\Coin_03.png")
-        moneda_tres = Item((30,30),"Objetos-Iconos\PNG\Bonus_Items\Coin_03.png")
         lista_monedas = []
         lista_lados_monedas = []
         
         lista_monedas.append(moneda)
-        lista_monedas.append(moneda_dos)
-        lista_monedas.append(moneda_tres)
+        
         
         lista_lados_monedas.append(moneda.lados)
-        lista_lados_monedas.append(moneda_dos.lados)
-        lista_lados_monedas.append(moneda_tres.lados)
+       
         ##################################
         #OBJETIVO
         tamaño_objetivo = (60,60)
-        posicion_inicial_objetivo = (30,70)
+        posicion_inicial_objetivo = (800,40)
         objetivo = Objetivo(tamaño_objetivo,posicion_inicial_objetivo,"cerebro-humano-mano-zombie\cerebro.png")
         lista_objetivos = [objetivo.lados]
         listaObjetivo = [objetivo]
         #Enemigo
-        posicion_inicial_enemigo = (50,250)
+        posicion_inicial_enemigo = (50,200)
         tamaño_enemigo = (160,115)
 
         diccionario_animaciones_enemigo = {}
@@ -86,12 +82,12 @@ class NivelTres(Nivel):
         diccionario_animaciones_enemigo_tres["salta"] = enemigo_cae
         
         
-        enemigo = Enemigo((420,0),(100,260),tamaño_enemigo,diccionario_animaciones_enemigo_dos,posicion_inicial_enemigo,10)
+        enemigo = Enemigo((420,0),(100,210),tamaño_enemigo,diccionario_animaciones_enemigo_dos,posicion_inicial_enemigo,10)
         enemigo_dos = Enemigo((800, 20),(450,560),tamaño_enemigo,diccionario_animaciones_enemigo,(400,550),10)
-        enemigo_tres = Enemigo((420,0),(250,40),tamaño_enemigo,diccionario_animaciones_enemigo_tres,(200,30),10)
-        lista_hitbox_enemigo = [enemigo.lados_hitbox, enemigo_dos.lados_hitbox,enemigo_tres.lados_hitbox]
-        lista_enemigos = [enemigo.lados, enemigo_dos.lados,enemigo_tres.lados]
-        listaEnemigo = [enemigo, enemigo_dos,enemigo_tres]
+        enemigo_final = Boss((800,340),(750,0),(0,10), (220,155),diccionario_animaciones_enemigo_tres,(700,-30),3)
+        
+        listaEnemigo = [enemigo, enemigo_dos]
+        
         
 
         #PLATAFORMAS
@@ -101,15 +97,15 @@ class NivelTres(Nivel):
 
         tamaño_plataformas = (100,50)
 
-        plataforma = Plataforma(tamaño_plataformas, "Objetos-Iconos\PNG\Pads\Pad_02_1.png",(550,450))
-        otra_plataforma = Plataforma((500,40), "Objetos-Iconos\PNG\Pads\Pad_02_1.png",(20,350))
-        plataforma_objetivo = Plataforma((500,60), "Objetos-Iconos\PNG\Pads\Pad_02_1.png",(10,120))
-        plataforma_4 = PlataformaAndante(5,"x",(400,750),(130,40), "Objetos-Iconos\PNG\Pads\Pad_02_1.png",(680,290))
-        plataforma_movimiento = PlataformaAndante(8,"x",(650,750),(120,45), "Objetos-Iconos\PNG\Pads\Pad_02_1.png",(650,550))
-        plataforma_5 = Plataforma((120,40),"Objetos-Iconos\PNG\Pads\Pad_02_1.png",(780,180))
+        plataforma = Plataforma(tamaño_plataformas, "Objetos-Iconos\PNG\Pads\Pad_02_1.png",(750,550))
+        otra_plataforma = Plataforma((500,40), "Objetos-Iconos\PNG\Pads\Pad_02_1.png",(10,300))
+        plataforma_objetivo = Plataforma((500,60), "Objetos-Iconos\PNG\Pads\Pad_02_1.png",(400,100))
+        plataforma_4 = PlataformaAndante(3,"x",(5,150),(130,40), "Objetos-Iconos\PNG\Pads\Pad_02_1.png",(5,180))
+        plataforma_movimiento = PlataformaAndante(2,"x",(650,800),(120,45), "Objetos-Iconos\PNG\Pads\Pad_02_1.png",(750,380))
+        plataforma_5 = Plataforma((600,60),"Objetos-Iconos\PNG\Pads\Pad_02_1.png",(10,480))
         #PLATAFORMA TRAMPAS
-        trampa = PlataformaTrampa((130,40),"Objetos-Iconos\PNG\Pads\Pad_02_2.png",(540,170),2)
-        trampa_2 = PlataformaTrampa((120,80),"Objetos-Iconos\PNG\Pads\Pad_02_2.png",(780,470),2)
+        trampa = PlataformaTrampa((140,120),"Objetos-Iconos\PNG\Pads\Pad_02_2.png",(480,70),2)
+        trampa_2 = PlataformaTrampa((500,120),"Objetos-Iconos\PNG\Pads\Pad_02_2.png",(5,450),2)
  
         lista_trampas = [trampa,trampa_2]
         listaTrampa = [trampa.lados,trampa_2.lados]
@@ -121,10 +117,11 @@ class NivelTres(Nivel):
         
         super().__init__(pantalla, mi_personaje,
                          listaPlataforma,listaEnemigo,
-                         lista_hitbox_enemigo,listaItems,
+                         enemigo.lados_hitbox,listaItems,
                          listaObjetivo,fondo_final,
                          lista_plataformas,lista_items,
-                         lista_enemigos,lista_objetivos,
+                         enemigo.lados,lista_objetivos,
                          lista_trampas,listaTrampa,lista_balas,
                          lista_lados_balas,
-                         lista_monedas,lista_lados_monedas)
+                         lista_monedas,lista_lados_monedas,enemigo_dos.lados_hitbox,enemigo_dos.lados,
+                         enemigo_final,lista_enemigo_balas,lista_lados_enemigo_balas)
