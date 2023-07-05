@@ -58,12 +58,12 @@ class NivelDos(Nivel):
         ##################################
         #OBJETIVO
         tamaño_objetivo = (60,60)
-        posicion_inicial_objetivo = (550,200)
+        posicion_inicial_objetivo = (600,200)
         objetivo = Objetivo(tamaño_objetivo,posicion_inicial_objetivo,"cerebro-humano-mano-zombie\cerebro.png")
         lista_objetivos = [objetivo.lados]
         listaObjetivo = [objetivo]
         #Enemigo
-        posicion_inicial_enemigo = (400, 370)
+        posicion_inicial_enemigo = (400, 360)
         tamaño_enemigo = (160,115)
 
         diccionario_animaciones_enemigo_dos = {}
@@ -77,7 +77,7 @@ class NivelDos(Nivel):
         diccionario_animaciones_enemigo["salta"] = enemigo_cae
 
         enemigo = Enemigo((800, 20),(450,560),tamaño_enemigo,diccionario_animaciones_enemigo,(400,550),18)
-        enemigo_dos = Enemigo((500, 140),(450,380),tamaño_enemigo,diccionario_animaciones_enemigo_dos,posicion_inicial_enemigo,10)
+        enemigo_dos = Enemigo((500, 140),(450,370),tamaño_enemigo,diccionario_animaciones_enemigo_dos,posicion_inicial_enemigo,10)
         
        
         listaEnemigo = [enemigo, enemigo_dos]
@@ -91,7 +91,7 @@ class NivelDos(Nivel):
 
         plataforma = Plataforma(tamaño_plataformas, "Objetos-Iconos\PNG\Pads\Pad_03_1.png",(700,550))
         otra_plataforma = Plataforma((400,100), "Objetos-Iconos\PNG\Pads\Pad_03_1.png",(200,450))
-        plataforma_objetivo = Plataforma((tamaño_plataformas), "Objetos-Iconos\PNG\Pads\Pad_03_1.png",(450,250))
+        plataforma_objetivo = Plataforma((tamaño_plataformas), "Objetos-Iconos\PNG\Pads\Pad_03_1.png",(500,250))
         plataforma_4 = Plataforma((130,50), "Objetos-Iconos\PNG\Pads\Pad_03_1.png",(250,300))
         plataforma_movimiento = PlataformaAndante(8,"x",(10,100),(120,45), "Objetos-Iconos\PNG\Pads\Pad_03_1.png",(20,400))
         #PLATAFORMA TRAMPAS

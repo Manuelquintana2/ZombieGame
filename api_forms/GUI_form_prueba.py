@@ -90,7 +90,7 @@ class FormPrueba(Form):
         self.show_dialog(formulario_niveles)
         
     def btn_settings_click(self,text):
-        formulario_setting = formSettings(self._master,100,25,800,550,"Black","Black",True)
+        formulario_setting = formSettings(self._master,0,0,900,700,"Yellow","Blue",True)
         self.show_dialog(formulario_setting)
         
         

@@ -148,7 +148,6 @@ class formNiveles(Form):
         self.nivel_uno_completado = False
         self.nivel_dos_completado = False
         self.nivel_tres_completado = False
-        self.nivel_cuatro_completado = False
 
         self.actualizar_estado_niveles()
 

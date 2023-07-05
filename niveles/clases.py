@@ -197,8 +197,9 @@ class Personaje:
         nombre_archivo = f'datospartida{self.nivel}.json'
         datos = {
             
-            'puntos': self.contador_puntaje
-           
+            'puntos': self.contador_puntaje,
+            'vidas': self.contador_vidas
+   
         }
 
         try:

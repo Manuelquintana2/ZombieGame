@@ -11,9 +11,9 @@ class formSettings(Form):
             super().__init__(screen, x, y, w, h, color_background, color_border, active)
             self.volumen = 0.2
             self.flag_play = True
-            self.btn_play = Button(self._slave, x, y, 100, 100, 100, 50, "Red", "Blue", self.btn_play_click, "Nombre", "Pausa", font="Verdana", font_size=15, font_color="White")
-            self.label_volumen = Label(self._slave, 650, 190, 100, 50, "20%", "Comic Sans", 15, "White", "api_forms\Table.png")
-            self.slider_volumen = Slider(self._slave,x,y,100,200,500,15,self.volumen,"Blue","White")
+            self.btn_play = Button(self._slave, x, y, 100, 300, 100, 50, "Red", "Blue", self.btn_play_click, "Nombre", "Pausa", font="Verdana", font_size=15, font_color="White")
+            self.label_volumen = Label(self._slave, 650, 390, 100, 50, "20%", "Comic Sans", 15, "White", "api_forms\Table.png")
+            self.slider_volumen = Slider(self._slave,x,y,100,400,500,15,self.volumen,"Blue","White")
             self.btn_home = Button_Image(screen=self._slave,
                                           master_x= self._x,
                                           master_y= self._y,
