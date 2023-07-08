@@ -39,7 +39,7 @@ class NivelDos(Nivel):
         diccionario_animaciones["camina_izquierda"] = personaje_camina_izquierda
         diccionario_animaciones["atacar"] = personaje_disparar
         
-        mi_personaje = Personaje(tamaño, diccionario_animaciones, posicion_inicial, 10,"nivel_dos")
+        mi_personaje = Personaje(pantalla,tamaño, diccionario_animaciones, posicion_inicial, 10,"nivel_dos")
 
         #ITEMS
         item = Item((30,30), "Objetos-Iconos/PNG/Bonus_Items/HP_Bonus_03.png")

@@ -4,8 +4,9 @@ import random
 import json
 
 class Personaje:
-    def __init__(self, tamaño, animaciones, posicion_inicial,velocidad,nivel=None):
+    def __init__(self, pantalla,tamaño, animaciones, posicion_inicial,velocidad,nivel=None):
         #CONFECCION
+        self._slave = pantalla
         self.nivel = nivel
         self.ancho = tamaño[0]
         self.alto = tamaño[1]
@@ -98,12 +99,14 @@ class Personaje:
     def verificar_colision_moneda(self, lista_monedas):
         for item in lista_monedas:
             if self.lados["main"].colliderect(item["main"]):
+                efectos_de_sonido("PC Computer - Star Wars Yoda Stories - Sound Effects\SWITCH-6.WAV")
                 self.desaparecer_item(lista_monedas)
                 self.contador_puntaje += 200
                 
     def verificar_colision_item(self, lista_item):
         for item in lista_item:
             if self.lados["main"].colliderect(item["main"]):
+                efectos_de_sonido("PC Computer - Star Wars Yoda Stories - Sound Effects\ARMFORCE.WAV")
                 self.desaparecer_item(lista_item)
                 self.contador_vidas += 1
                 self.contador_puntaje += 100
@@ -112,14 +115,17 @@ class Personaje:
     def verificar_colision_enemigo(self,lista_hitbox,lista_enemigo):
         if self.lados["right"].colliderect(lista_hitbox["left"]) and self.mira_derecha == True:
             self.contador_vidas -= 1
+            efectos_de_sonido("PC Computer - Star Wars Yoda Stories - Sound Effects\HURT.WAV")
             print(f"Haz perdido una vida.")
         elif self.lados["left"].colliderect(lista_hitbox["right"]) and self.mira_izquierda == True and self.mira_derecha==False:
             self.contador_vidas -= 1
+            efectos_de_sonido("PC Computer - Star Wars Yoda Stories - Sound Effects\HURT.WAV")
             print(f"Haz perdido una vida.")
         elif self.contador_vidas <= 0:
             self.desaparecer_personaje(self.lados)
                
         elif self.lados["bottom"].colliderect(lista_hitbox["top"]):
+            efectos_de_sonido("PC Computer - Dragon Ball FighterZ - Android 18\Android #18\Default/vaen009.ogg")
             self.desaparecer_enemigo_uno(lista_hitbox,lista_enemigo)
             self.contador_puntaje += 100
             self.contador_proyectiles += 3
@@ -128,6 +134,7 @@ class Personaje:
         if enemigo_dos_hitbox and enemigo_dos != None:
             if self.lados["right"].colliderect(enemigo_dos_hitbox["left"]) and self.mira_derecha == True:
                 self.contador_vidas -= 1
+                efectos_de_sonido("PC Computer - Star Wars Yoda Stories - Sound Effects\HURT.WAV")
                 print(f"Haz perdido una vida.")
             elif self.lados["left"].colliderect(enemigo_dos_hitbox["right"]) and self.mira_izquierda == True and self.mira_derecha==False:
                 self.contador_vidas -= 1
@@ -136,6 +143,7 @@ class Personaje:
                 self.desaparecer_personaje(self.lados)
                 
             elif self.lados["bottom"].colliderect(enemigo_dos_hitbox["top"]):
+                efectos_de_sonido("PC Computer - Dragon Ball FighterZ - Android 18\Android #18\Default/vaen019.ogg")
                 self.desaparecer_enemigo_dos(enemigo_dos_hitbox,enemigo_dos)
                 self.contador_puntaje += 100
                 self.contador_proyectiles += 3
@@ -186,12 +194,14 @@ class Personaje:
     def ganar_juego(self,lista_objetivo,enemigo_uno_hitbox,enemigo,enemigo_dos_hitbox,enemigo_dos,lista_item):
         for objetivo in lista_objetivo:
             if self.lados["main"].colliderect(objetivo["main"]):
+                efectos_de_sonido("Recoome/vrkn003.ogg")
                 self.contador_puntaje += 500
                 self.desaparecer_enemigo_uno(enemigo_uno_hitbox, enemigo)
                 self.desaparecer_enemigo_dos(enemigo_dos_hitbox, enemigo_dos)
                 self.desaparecer_personaje(self.lados)
                 self.desaparecer_item(lista_item)
                 self.guardar_datos_partida()
+                
                 
     def guardar_datos_partida(self):
         nombre_archivo = f'datospartida{self.nivel}.json'
@@ -211,12 +221,14 @@ class Personaje:
     def verificar_colision_enemigo_bala(self, lista_hitbox,lista_enemigo,lista_bala):
         for bala in lista_bala:
             if bala["main"].colliderect(lista_hitbox["main"]):
+                efectos_de_sonido("PC Computer - Dragon Ball FighterZ - Android 18\Android #18\Default/vaen009.ogg")
                 self.desaparecer_enemigo_uno(lista_hitbox,lista_enemigo)
     
     def verificar_colision_enemigo_bala_dos(self, enemigo_dos_hitbox,enemigo_dos,lista_bala):
         if enemigo_dos_hitbox and enemigo_dos != None:
             for bala in lista_bala:
                 if bala["main"].colliderect(enemigo_dos_hitbox["main"]):
+                    efectos_de_sonido("PC Computer - Dragon Ball FighterZ - Android 18\Android #18\Default/vaen019.ogg")
                     self.desaparecer_enemigo_dos(enemigo_dos_hitbox,enemigo_dos)
         else:
             return None
@@ -225,6 +237,7 @@ class Personaje:
         if lista_balas_enemigo != None:
             for bala in lista_balas_enemigo:
                 if self.lados["main"].colliderect(bala["main"]):
+                    efectos_de_sonido("PC Computer - Star Wars Yoda Stories - Sound Effects\HURT.WAV")
                     self.contador_vidas -= 1
         
     
@@ -288,8 +301,8 @@ class Proyectil(Personaje):
         pantalla.blit(self.imagen_proyectil,self.rect)
 
 class Enemigo(Personaje):
-    def __init__(self,de_donde_hasta_donde,posicion_hitbox,tamaño, animaciones, posicion_inicial,velocidad):
-        super().__init__(tamaño, animaciones, posicion_inicial, velocidad)
+    def __init__(self,de_donde_hasta_donde,posicion_hitbox,tamaño, animaciones, posicion_inicial,velocidad,pantalla):
+        super().__init__(pantalla,tamaño, animaciones, posicion_inicial, velocidad)
         self.orientacion_enemigo = 1
         self.de_donde = de_donde_hasta_donde[0]
         self.hasta_donde = de_donde_hasta_donde[1]
@@ -432,7 +445,7 @@ class ProyectilEnemigo(Personaje):
 class Boss(Enemigo):
     def __init__(self,de_donde_hasta_donde,posicion_hitbox,hitbox_disparos,tamaño, animaciones, posicion_inicial,velocidad):
         super().__init__(de_donde_hasta_donde,posicion_hitbox,tamaño, animaciones, posicion_inicial,velocidad)
-        self.vidas = 6
+        self.vidas = 5
         self.x_hitbox_disparos = hitbox_disparos[0]
         self.y_hitbox_disparos = hitbox_disparos[1]
         self.hitbox_real = pygame.Rect(self.x_hitbox,self.y_hitbox,100,130)
@@ -473,16 +486,22 @@ class Boss(Enemigo):
         for lados in jugador.lados:
             if self.lados_hitbox["right"].colliderect(jugador.lados["left"]) or self.lados_hitbox["left"].colliderect(jugador.lados["right"]):
                 jugador.contador_vidas -= 1
+                efectos_de_sonido("PC Computer - Star Wars Yoda Stories - Sound Effects\HURT.WAV")
             if jugador.contador_vidas < 1:
                 jugador.desaparecer_personaje(jugador.lados)
             elif self.lados_hitbox["top"].colliderect(jugador.lados["bottom"]):
                 self.vidas -= 1
+                efectos_de_sonido("PC Computer - Dragon Ball FighterZ - Android 18\Android #18\Default/vaen109.ogg")
+
         for balas in balas_jugador:
             if self.lados_hitbox["left"].colliderect(balas.lados["main"]):
+                efectos_de_sonido("PC Computer - Dragon Ball FighterZ - Android 18\Android #18\Default/vaen109.ogg")
+                efectos_de_sonido("PC Computer - Dragon Ball FighterZ - Android 18\Android #18\Default/vaen030.ogg")
                 self.vidas -= 1
                 
         if self.vidas < 1:
-            self.matar_boss()
+            self.matar_boss()        
+            
                 
     def matar_boss(self):
         for lado in self.lados:
@@ -514,6 +533,11 @@ lista_lados_balas = []
 
 lista_enemigo_balas = []
 lista_lados_enemigo_balas = []
+
+def efectos_de_sonido(sonido:str):
+    pygame.mixer.init()
+    sonido_colision = pygame.mixer.Sound(sonido)
+    pygame.mixer.Sound.play(sonido_colision)
     
 
 

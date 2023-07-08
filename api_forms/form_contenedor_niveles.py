@@ -3,6 +3,7 @@ from pygame.locals import *
 
 from api_forms.GUI_form import *
 from api_forms.GUI_button_image import *
+from api_forms.form_settings import *
 
 class FormContenedorNivel(Form):
     def __init__(self,pantalla:pygame.Surface,nivel):
@@ -23,8 +24,10 @@ class FormContenedorNivel(Form):
                                           text="Home",
                                           font="Arial",
                                           )
+    
         
         self.lista_widgets.append(self.btn_home)
+        
         
         
     def update(self, lista_eventos):
@@ -32,6 +35,7 @@ class FormContenedorNivel(Form):
         for widget in self.lista_widgets:
             widget.update(lista_eventos)
         self.draw()
+        
         
     def btn_home_click(self,param):
         self.end_dialog()

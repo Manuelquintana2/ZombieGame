@@ -1,5 +1,7 @@
 import pygame
 from niveles.modo import *
+from api_forms.GUI_menu_pausa import FormPausa
+
 
 class Nivel:
     def __init__(self,pantalla,personaje_principal,
@@ -37,6 +39,12 @@ class Nivel:
         self.proyectiles_enemigo = lista_balas_enemigo
         self.lados_proyectiles_enemigo = lista_lados_balas_enemigo
     
+    def imagenWin(self):
+        if self.jugador.lados["main"].colliderect(self.lista_objetivos_lados["main"]):
+            win = pygame.image.load("zyro-imageWin.png")
+            win = pygame.transform.scale(win,(300,100))
+            self._slave.blit(win,(450,350))
+    
     def update(self,lista_eventos):
         for event in lista_eventos:
             if event.type == pygame.KEYDOWN:
@@ -46,6 +54,7 @@ class Nivel:
         self.leer_inputs()
         self.actualizar_pantalla()
         self.dibujar_rectangulos()
+        self.imagenWin()
     
     def actualizar_pantalla(self):
         self._slave.blit(self.imagen_fondo, (0,0))
@@ -113,6 +122,20 @@ class Nivel:
             
         if self.enemigo_final  != None:
             self.enemigo_final.update(self._slave,self.jugador,self.proyectiles)
+    
+    def pause(self):
+        pausa = True
+        while pausa:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pausa = False
+                    flag = False
+                    pygame.quit()
+                    exit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        pausa = False
+                        
         
     def leer_inputs(self):
         keys = pygame.key.get_pressed()
@@ -127,7 +150,11 @@ class Nivel:
             self.jugador.contador_proyectiles -= 1
         else:
             self.jugador.que_hace = "quieto"
-        
+            
+        if keys[pygame.K_ESCAPE]:
+            self.pause()
+            
+            
     
     def dibujar_rectangulos(self):
         if get_mode():
