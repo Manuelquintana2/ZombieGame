@@ -10,6 +10,7 @@ class Personaje:
         self.nivel = nivel
         self.ancho = tamaño[0]
         self.alto = tamaño[1]
+        self.gano = False
         #GRAVEDAD
         self.gravedad = 1
         self.potencia_salto = -15
@@ -194,6 +195,7 @@ class Personaje:
     def ganar_juego(self,lista_objetivo,enemigo_uno_hitbox,enemigo,enemigo_dos_hitbox,enemigo_dos,lista_item):
         for objetivo in lista_objetivo:
             if self.lados["main"].colliderect(objetivo["main"]):
+                self.gano = True
                 efectos_de_sonido("Recoome/vrkn003.ogg")
                 self.contador_puntaje += 500
                 self.desaparecer_enemigo_uno(enemigo_uno_hitbox, enemigo)
@@ -443,8 +445,8 @@ class ProyectilEnemigo(Personaje):
         pantalla.blit(self.imagen_proyectil,self.rect)
 
 class Boss(Enemigo):
-    def __init__(self,de_donde_hasta_donde,posicion_hitbox,hitbox_disparos,tamaño, animaciones, posicion_inicial,velocidad):
-        super().__init__(de_donde_hasta_donde,posicion_hitbox,tamaño, animaciones, posicion_inicial,velocidad)
+    def __init__(self,de_donde_hasta_donde,posicion_hitbox,hitbox_disparos,tamaño, animaciones, posicion_inicial,velocidad,pantalla):
+        super().__init__(de_donde_hasta_donde,posicion_hitbox,tamaño, animaciones, posicion_inicial,velocidad,pantalla)
         self.vidas = 5
         self.x_hitbox_disparos = hitbox_disparos[0]
         self.y_hitbox_disparos = hitbox_disparos[1]

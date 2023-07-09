@@ -76,8 +76,8 @@ class NivelDos(Nivel):
         diccionario_animaciones_enemigo["camina_izquierda"] = enemigo_izquierda
         diccionario_animaciones_enemigo["salta"] = enemigo_cae
 
-        enemigo = Enemigo((800, 20),(450,560),tamaño_enemigo,diccionario_animaciones_enemigo,(400,550),18)
-        enemigo_dos = Enemigo((500, 140),(450,370),tamaño_enemigo,diccionario_animaciones_enemigo_dos,posicion_inicial_enemigo,10)
+        enemigo = Enemigo((800, 20),(450,560),tamaño_enemigo,diccionario_animaciones_enemigo,(400,550),18,pantalla)
+        enemigo_dos = Enemigo((500, 140),(450,370),tamaño_enemigo,diccionario_animaciones_enemigo_dos,posicion_inicial_enemigo,10,pantalla)
         
        
         listaEnemigo = [enemigo, enemigo_dos]

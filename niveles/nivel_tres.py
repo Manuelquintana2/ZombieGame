@@ -82,9 +82,9 @@ class NivelTres(Nivel):
         diccionario_animaciones_enemigo_tres["salta"] = enemigo_cae
         
         
-        enemigo = Enemigo((420,0),(100,210),tamaño_enemigo,diccionario_animaciones_enemigo_dos,posicion_inicial_enemigo,10)
-        enemigo_dos = Enemigo((800, 20),(450,560),tamaño_enemigo,diccionario_animaciones_enemigo,(400,550),10)
-        enemigo_final = Boss((800,340),(750,0),(0,10), (220,155),diccionario_animaciones_enemigo_tres,(700,-30),3)
+        enemigo = Enemigo((420,0),(100,210),tamaño_enemigo,diccionario_animaciones_enemigo_dos,posicion_inicial_enemigo,10,pantalla)
+        enemigo_dos = Enemigo((800, 20),(450,560),tamaño_enemigo,diccionario_animaciones_enemigo,(400,550),10,pantalla)
+        enemigo_final = Boss((800,340),(750,0),(0,10), (220,155),diccionario_animaciones_enemigo_tres,(700,-30),3,pantalla)
         
         listaEnemigo = [enemigo, enemigo_dos]
         

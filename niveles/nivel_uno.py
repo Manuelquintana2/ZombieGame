@@ -102,6 +102,9 @@ class NivelUno(Nivel):
 
         listaPlataforma = [plataforma,plataforma_5,otra_plataforma,plataforma_objetivo,plataforma_4]
 
+
+        
+
         super().__init__(pantalla, mi_personaje,
                          listaPlataforma,listaEnemigo,
                          enemigo.lados_hitbox,listaItems,

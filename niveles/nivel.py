@@ -39,12 +39,6 @@ class Nivel:
         self.proyectiles_enemigo = lista_balas_enemigo
         self.lados_proyectiles_enemigo = lista_lados_balas_enemigo
     
-    def imagenWin(self):
-        if self.jugador.lados["main"].colliderect(self.lista_objetivos_lados["main"]):
-            win = pygame.image.load("zyro-imageWin.png")
-            win = pygame.transform.scale(win,(300,100))
-            self._slave.blit(win,(450,350))
-    
     def update(self,lista_eventos):
         for event in lista_eventos:
             if event.type == pygame.KEYDOWN:
@@ -54,7 +48,10 @@ class Nivel:
         self.leer_inputs()
         self.actualizar_pantalla()
         self.dibujar_rectangulos()
-        self.imagenWin()
+        for objetivo in self.objetivos:
+            if self.jugador.lados["main"].colliderect(objetivo.lados["main"]):
+                self.imagen_win()
+                print("gane")
     
     def actualizar_pantalla(self):
         self._slave.blit(self.imagen_fondo, (0,0))
@@ -71,6 +68,7 @@ class Nivel:
         proyectil_imagen = pygame.image.load("PNG\Objects_separately\Rock1_1_no_shadow.png")
         proyectil_imagen = pygame.transform.scale(proyectil_imagen,(50,50))        
         proyectiles = fuente.render("{0}".format(self.jugador.contador_proyectiles),True,(241, 196, 15))
+        
         #IMAGEN BOSS
         if self.enemigo_final != None:
             boss_final = pygame.image.load("Enemigos\_SCML/3/3_head.png")
@@ -84,6 +82,7 @@ class Nivel:
         self._slave.blit(puntaje,(170,8))
         self._slave.blit(vidas,(70,8))
         self._slave.blit(proyectiles,(320,8))
+        
         #Items
         for item in self.items:
             item.update(self._slave)
@@ -123,9 +122,19 @@ class Nivel:
         if self.enemigo_final  != None:
             self.enemigo_final.update(self._slave,self.jugador,self.proyectiles)
     
+    
+    def imagen_win(self):
+        win = pygame.image.load("zyro-imageWin.png")
+        win = pygame.transform.scale(win,(300,100))
+        self._slave.blit(win,(450,350))
+    
+    
     def pause(self):
         pausa = True
         while pausa:
+            # pausaa = pygame.image.load("zyro-imageWin.png")
+            # pausaa = pygame.transform.scale(pausaa,(300,100))
+            # self._slave.blit(pausaa,(450,250))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pausa = False
