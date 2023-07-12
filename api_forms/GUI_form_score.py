@@ -17,13 +17,17 @@ class formMenuScore(Form):
         
         self.margen_y = margen_y
         
-        label_jugador = Label(self._slave, x=margen_x + 10, y= 20, w=w/2-margen_x- 10, h= 50,
+        label_jugador = Label(self._slave, x=margen_x + 10, y= 20, w=300, h= 90,
                        text="Jugador", font="Verdana", font_size=30,font_color="White",path_image="api_forms/bar.png")
-        label_puntaje = Label(self._slave, x=margen_x + 10 + w/2-10, y= 20, w=w/2-margen_x-10, h= 50,
+        label_puntaje = Label(self._slave, x=300, y= 20, w=300, h= 90,
                        text="Puntaje", font="Verdana", font_size=30,font_color="White",path_image="api_forms/bar.png")
+        
+        label_vidas = Label(self._slave, x=600, y= 20, w=300, h= 90,
+                       text="Vidas", font="Verdana", font_size=30,font_color="White",path_image="api_forms/bar.png")
         
         self.lista_widgets.append(label_jugador)
         self.lista_widgets.append(label_puntaje)
+        self.lista_widgets.append(label_vidas)
         
         pos_inicial_y = margen_y
         
@@ -32,10 +36,10 @@ class formMenuScore(Form):
             for n,s in j.items():
                 cadena = ""
                 cadena = f"{s}"
-                jugador = Label(self._slave, pos_inicial_x, pos_inicial_y, w/2 - margen_x, 100, cadena,
+                jugador = Label(self._slave, pos_inicial_x, pos_inicial_y, w/3 - margen_x, 100, cadena,
                                 "Verdana", 30, "White", "api_forms\Table.png")
                 self.lista_widgets.append(jugador)
-                pos_inicial_x = w/2 - margen_x
+                pos_inicial_x += w/3 
             pos_inicial_y += 100 + espacio
             
         self._btn_home = Button_Image(screen=self._slave,

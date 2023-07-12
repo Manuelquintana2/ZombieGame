@@ -48,10 +48,7 @@ class Nivel:
         self.leer_inputs()
         self.actualizar_pantalla()
         self.dibujar_rectangulos()
-        for objetivo in self.objetivos:
-            if self.jugador.lados["main"].colliderect(objetivo.lados["main"]):
-                self.imagen_win()
-                print("gane")
+        
     
     def actualizar_pantalla(self):
         self._slave.blit(self.imagen_fondo, (0,0))

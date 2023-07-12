@@ -1,9 +1,6 @@
 import pygame
 from niveles.clases import *
 from niveles.modo import *
-from niveles.nivel_uno import NivelUno
-from niveles.nivel_dos import NivelDos
-from niveles.nivel_tres import NivelTres
 from api_forms.GUI_form_prueba import FormPrueba
 
 #PANTALLA

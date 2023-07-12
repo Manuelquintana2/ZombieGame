@@ -39,7 +39,7 @@ class NivelUno(Nivel):
         diccionario_animaciones["camina_derecha"] = personaje_camina
         diccionario_animaciones["camina_izquierda"] = personaje_camina_izquierda
         diccionario_animaciones["atacar"] = personaje_disparar
-        mi_personaje = Personaje(pantalla,tamaño, diccionario_animaciones, posicion_inicial,10,"nivel_uno")
+        mi_personaje = Personaje(tamaño, diccionario_animaciones, posicion_inicial,10,"nivel_uno")
 
         #ITEMS
         item = Item((30,30), "Objetos-Iconos/PNG/Bonus_Items/HP_Bonus_03.png")
@@ -74,7 +74,7 @@ class NivelUno(Nivel):
         diccionario_animaciones_enemigo["camina_izquierda"] = enemigo_izquierda
         diccionario_animaciones_enemigo["salta"] = enemigo_cae
 
-        enemigo = Enemigo((780, 450),(550,360),tamaño_enemigo,diccionario_animaciones_enemigo,posicion_inicial_enemigo,10,pantalla)
+        enemigo = Enemigo((780, 450),(550,360),tamaño_enemigo,diccionario_animaciones_enemigo,posicion_inicial_enemigo,10)
        
         
         listaEnemigo = [enemigo]

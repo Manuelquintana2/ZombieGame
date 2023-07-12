@@ -28,7 +28,7 @@ class FormContenedorNivel(Form):
                                         font_color= (0,255,0),
                                         path_image= 'api_forms\home.png' )
         
-        self._btn_settings = Button_Image(screen=self._slave,
+        self._btn_pausa = Button_Image(screen=self._slave,
                                  master_x= self._x,
                                  master_y= self._y,
                                  x=800,
@@ -36,10 +36,10 @@ class FormContenedorNivel(Form):
                                  w=90,
                                  h=100,
                                  path_image="36278-split-split-split-removebg-preview.png",
-                                 onclick=self.btn_settings_click,
+                                 onclick=self.btn_pausa_click,
                                  onclick_param="settings")
         
-        self.lista_widgets.append(self._btn_settings)
+        self.lista_widgets.append(self._btn_pausa)
         self.lista_widgets.append(self._btn_home)
 
     
@@ -57,19 +57,11 @@ class FormContenedorNivel(Form):
             else:
                 self.hijo.update(lista_evento)
 
-    # def update_setting(self, lista_eventos):
-    #     if self.verificar_dialog_result():
-    #         for widget in self.lista_widgets:
-    #             widget.update_setting(lista_eventos)
-                
-    #         self.draw()
-    #     else:
-    #         self.hijo.update_setting(lista_eventos)
         
-    def btn_settings_click(self, text):
-        formulario_setting = FormPausa(self._master, 0, 0, 900, 700, "Black", "Black", True, self)  
+    def btn_pausa_click(self, text):
+        formulario_pausa = FormPausa(self._master, 0, 0, 900, 700, "Black", "Black", True, self)  
         self.setting = True 
-        self.show_dialog(formulario_setting)
+        self.show_dialog(formulario_pausa)
 
     def btn_home_click(self, param):
         self.end_dialog()

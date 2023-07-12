@@ -4,9 +4,8 @@ import random
 import json
 
 class Personaje:
-    def __init__(self, pantalla,tamaño, animaciones, posicion_inicial,velocidad,nivel=None):
+    def __init__(self,tamaño, animaciones, posicion_inicial,velocidad,nivel=None):
         #CONFECCION
-        self._slave = pantalla
         self.nivel = nivel
         self.ancho = tamaño[0]
         self.alto = tamaño[1]
@@ -151,6 +150,14 @@ class Personaje:
         else:
             return None
     
+    
+    def perder_juego(self,pantalla):
+        if self.contador_vidas <= 0:
+            dead = pygame.image.load("Dead-removebg-preview.png")
+            dead = pygame.transform.scale(dead,(600,200))
+            pantalla.blit(dead,(150,100))
+            
+    
     def verificar_colision_trampa(self,lista_trampas_lados,lista_trampas):
         for trampa in lista_trampas_lados:
             for trampas in lista_trampas:
@@ -190,9 +197,9 @@ class Personaje:
                 enemigo_dos[lado].x = -5000
                 enemigo_dos[lado].y = -5000
     
+    
 
-
-    def ganar_juego(self,lista_objetivo,enemigo_uno_hitbox,enemigo,enemigo_dos_hitbox,enemigo_dos,lista_item):
+    def ganar_juego(self,lista_objetivo,enemigo_uno_hitbox,enemigo,enemigo_dos_hitbox,enemigo_dos,lista_item,pantalla):
         for objetivo in lista_objetivo:
             if self.lados["main"].colliderect(objetivo["main"]):
                 self.gano = True
@@ -203,6 +210,10 @@ class Personaje:
                 self.desaparecer_personaje(self.lados)
                 self.desaparecer_item(lista_item)
                 self.guardar_datos_partida()
+        if self.gano == True:
+            win = pygame.image.load("zyro-imageWin.png")
+            win = pygame.transform.scale(win,(600,200))
+            pantalla.blit(win,(150,100))
                 
                 
     def guardar_datos_partida(self):
@@ -281,7 +292,8 @@ class Personaje:
         self.verificar_colision_item(lista_items)
         self.verificar_colision_enemigo(enemigo_uno_hitbox,enemigo_uno)
         self.verificar_colision_enemigo_dos(enemigo_dos_hitbox,enemigo_dos)
-        self.ganar_juego(lista_objetivo,enemigo_uno_hitbox,enemigo_uno,enemigo_dos_hitbox,enemigo_dos,lista_items)
+        self.ganar_juego(lista_objetivo,enemigo_uno_hitbox,enemigo_uno,enemigo_dos_hitbox,enemigo_dos,lista_items,pantalla)
+        self.perder_juego(pantalla)
         self.verificar_colision_trampa(lista_trampas_lados, lista_trampas)
         self.verificar_colision_enemigo_bala(enemigo_uno_hitbox,enemigo_uno,lista_lados_balas)
         self.verificar_colision_enemigo_bala_dos(enemigo_dos_hitbox,enemigo_dos,lista_balas)
@@ -303,8 +315,8 @@ class Proyectil(Personaje):
         pantalla.blit(self.imagen_proyectil,self.rect)
 
 class Enemigo(Personaje):
-    def __init__(self,de_donde_hasta_donde,posicion_hitbox,tamaño, animaciones, posicion_inicial,velocidad,pantalla):
-        super().__init__(pantalla,tamaño, animaciones, posicion_inicial, velocidad)
+    def __init__(self,de_donde_hasta_donde,posicion_hitbox,tamaño, animaciones, posicion_inicial,velocidad):
+        super().__init__(tamaño, animaciones, posicion_inicial, velocidad)
         self.orientacion_enemigo = 1
         self.de_donde = de_donde_hasta_donde[0]
         self.hasta_donde = de_donde_hasta_donde[1]
@@ -445,8 +457,8 @@ class ProyectilEnemigo(Personaje):
         pantalla.blit(self.imagen_proyectil,self.rect)
 
 class Boss(Enemigo):
-    def __init__(self,de_donde_hasta_donde,posicion_hitbox,hitbox_disparos,tamaño, animaciones, posicion_inicial,velocidad,pantalla):
-        super().__init__(de_donde_hasta_donde,posicion_hitbox,tamaño, animaciones, posicion_inicial,velocidad,pantalla)
+    def __init__(self,de_donde_hasta_donde,posicion_hitbox,hitbox_disparos,tamaño, animaciones, posicion_inicial,velocidad):
+        super().__init__(de_donde_hasta_donde,posicion_hitbox,tamaño, animaciones, posicion_inicial,velocidad)
         self.vidas = 5
         self.x_hitbox_disparos = hitbox_disparos[0]
         self.y_hitbox_disparos = hitbox_disparos[1]

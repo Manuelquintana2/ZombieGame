@@ -17,7 +17,7 @@ class formSettings(Form):
         self.flag_play = True
        
         self.fondo = PictureBox(self._slave, 0,0,900,700,"36278-split-split (1).png")
-        self.btn_play = Button(self._slave, x, y, 150, 330, 100, 50, "Red", "Blue", self.btn_play_click, "Nombre", "Pausa", font="Verdana", font_size=15, font_color="White")
+        self.btn_play = Button_Image(self._slave,x,y,150,360,30,30,"prendida-removebg-preview.png",self.btn_play_click, "hola")
         self.label_volumen = Label(self._slave, 480, 380, 100, 50, f"{round(self.volumen * 100)}%", "Comic Sans", 15, "White", "api_forms\Table.png")
         self.slider_volumen = Slider(self._slave,x,y,150,400,300,10,self.volumen,"Blue","White")
         self.btn_home = Button_Image(screen=self._slave,
@@ -43,14 +43,15 @@ class formSettings(Form):
     def btn_play_click(self, texto):
         if self.flag_play:
             pygame.mixer.music.pause()
-            self.btn_play._color_background = "Cyan"
-            self.btn_play._font_color = "Red"
-            self.btn_play.set_text("Play")
+            pausa = pygame.image.load('apagada-removebg-preview.png')
+            pygame.transform.scale(pausa, (40, 40))
+            self.btn_play._slave = pausa
         else:
             pygame.mixer.music.unpause()
-            self.btn_play._color_background = "Red"
-            self.btn_play._font_color = "White"
-            self.btn_play.set_text("Pause")
+            play = pygame.image.load('prendida-removebg-preview.png')
+            pygame.transform.scale(play, (40,40))
+            self.btn_play._slave = play
+            
                 
         self.flag_play = not self.flag_play
                     
